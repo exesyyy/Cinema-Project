@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Area Riservata{% endblock %}
+
+{% block access %}  
+    {% if user %}
+        <a class="nav-link" href="/user">{{user}}</a>
+        <a class="nav-link" href="/logout">LOGOUT</a>
+    {% else %}
+        <a class="nav-link" href="/login">ACCEDI</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container posizione">
+        <h2>Film visti da te</h2>
+        <hr>
+        <ul>
+            {% if lista %}
+                {% for e in lista %}
+                    <li>
+                        <div class="row">
+                            <div class="col">
+                                <img src={{e[1]}} style="width: 200px;" class="cover">
+                            </div>
+                            <div class="col d-flex align-items-center">
+                                <h3>{{e[0]}}</h3>
+                            </div>
+                        </div>
+                        <br>
+                    </li>
+                {% endfor %}
+            {% endif%}
+        </ul>
+        <hr>
+        <p>Desidero <a href="/deleteaccount" id="deleteacc">eliminare</a> il mio account</p>
+
+    </div>
+{% endblock %}

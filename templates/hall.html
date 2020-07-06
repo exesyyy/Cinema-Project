@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Hall{% endblock %}
+
+{% block access %}     
+    {% if user %}
+        <a class="nav-link" href="/user">{{user}}</a>
+        <a class="nav-link" href="/logout">LOGOUT</a>
+    {% else %}
+        <a class="nav-link" href="/login">ACCEDI</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center posizione">
+        <!-- Costruzione della sala con relativi posti liberi/occupati -->
+        <script type="text/javascript">                       
+            var table = '';
+            var sala = {{ sala }};
+            var columns = sala[0].length;       
+            var rows = sala.length;      
+            table += '<td class="rows pluto">' + '</td>';
+            for (var i = 1; i<=columns; i++){
+                table += '<td class="columns pluto">' + i + '</td>';
+            }
+            for(var i = 0; i<rows; i++){
+                table += '<tr>';
+                var posto = String.fromCharCode(i+65);
+                table += '<td class="rows pluto">' + posto + '</td>';
+                for(var j = 0; j<columns; j++){
+                    if(sala[i][j] == 1){
+                        table += '<td class="reserved pluto" id="' + posto + (j+1) + '">' + '</td>';
+                    }
+                    else if(sala[i][j] == -1){
+                        table += '<td class="booked pluto" id="' + posto + (j+1) + '">' + '</td>';
+                    }
+                    else{
+                        table += '<td class="pluto" id="' + posto + (j+1) + '">' + '</td>';
+                    }
+                }
+                table += '</tr>';
+            }
+            document.write('<table>' + table + '</table>');
+        </script>
+        <div class="align-self-center ml-3">
+            <button class="btn btn-success" name="confirm" id="confirm">Conferma</button>                                
+        </div>
+    </div> 
+
+    <script src="{{ url_for('static', filename='tickets.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Buy{% endblock %}
+
+{% block access %}        
+    <a class="nav-link" href="/user">{{user}}</a>
+    <a class="nav-link" href="/logout">LOGOUT</a>
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center posizione">
+        <h2 style="padding-top: 10px;">PREZZO TOTALE DEI BIGLIETTI: {{price}}€</h2>
+        <button class="btn btn-primary ml-4"><a href="/films" id="chiudi">CHIUDI</a></button>
+    </div>
+{% endblock %}

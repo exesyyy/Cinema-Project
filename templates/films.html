@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}Films{% endblock %}
+
+{% block access %}       
+    {% if user %}
+        <a class="nav-link" href="/user">{{user}}</a>
+        <a class="nav-link" href="/logout">LOGOUT</a>
+    {% else %}
+        <a class="nav-link" href="/login">ACCEDI</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container posizione">
+        <!-- {% if moderator %}
+        COSTRUIAMO LA PARTE DI INSERIMENTO DEI FILM
+        <h2>Inserisci un nuovo film</h2>
+        <form action="/films">
+        
+        </form>
+        {% endif %} -->
+        {% with messages = get_flashed_messages() %}
+        <!-- Se ci sono messaggi looppo per mostrarli tutti -->
+            {% if messages %}
+                {% for msg in messages %}
+                    <p>{{msg}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        {% if moderator %}
+            <!-- Inserimento nuovo film -->
+            <form action="/filminsert" method="POST">
+                <h2>INSERISCI UN FILM</h2>
+                <div class="container">
+                    <div class="row pippo">
+                        <div class="col text-right">
+                            <label class="text-right" for="title">TITOLO: </label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="title" placeholder="Insert the film's title" id="title" required>
+                        </div>
+                    </div>
+                    <div class="row pippo">
+                        <div class="col text-right">                   
+                            <label for="pass">URL IMMAGINE:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="imgurl" placeholder="IMG_URL" id="imgurl" required>
+                        </div>
+                    </div>
+                    <div class="row pippo">
+                        <div class="col text-right"> 
+                            <label for="filmdate">DATA PUBBLICAZIONE:</label>
+                        </div>
+                        <div class="col">
+                            <input type="date" name="filmdate" placeholder="Data pubblicaizone" id="filmdate" required>
+                        </div>
+                    </div>
+                    <div class="row pippo">
+                        <div class="col text-right">                    
+                            <label for="category">CATEGORIA:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="category" placeholder="Categoria" id="category" required>
+                        </div>
+                    </div>
+                    
+                    <!-- SEZIONE AGGIORNATA PER AGGIUNGERE DURATA E REGISTA -->
+                       
+                    <div class="row pippo">
+                        <div class="col text-right"> 
+                            <label for="duration">DURATA:</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="duration" placeholder="Durata" id="duration" required>
+                        </div>
+                    </div>
+                    <div class="row pippo">
+                        <div class="col text-right">                    
+                            <label for="category">REGISTA:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="director" placeholder="Regista" id="directos" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row justify-content-around">
+                        <button class="btn btn-success" type="submit">Insert</button>
+                    </div> 
+                </div>
+            </form>
+            
+            <hr>
+
+            <!-- Inserimento orari di un film -->
+            <form action="/timeinsert" method="POST">
+                <h2>INSERISCI ORARI DI UN FILM</h2>
+                <div class="form-row ">
+                    <select class="custom-select" name="filmSelected">
+                        {% if lista %}
+                            <option selected>Seleziona un film</option>
+                            {% for c in lista %}
+                                <option value="{{c['id']}}">{{c['title']}}</option>   
+                            {% endfor %}
+                        {% else %}
+                            <option selected>Non ci sono film</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <br>
+                <div class="form-row">
+                    <div id='TextBoxesGroup'>                                          
+                        
+                    </div>
+                </div>
+                <div class="form-row">
+                    <button class="btn btn-success" id="addButton">Add Orario</button>
+                    <!-- <input type='button' value='Add Orario' id='addButton'> -->
+                    <button class="btn btn-danger" id="removeButton">Remove Orario</button>
+                    <!-- <input type='button' value='Remove Orario' id='removeButton'> -->
+                    <button class="btn btn-warning" id="submit">Insert</button>
+                    <!-- <input type="submit" value="Submit" id='submit'> -->
+                </div>
+            </form>
+
+            <hr>
+
+            <!-- RIMOZIONE DI UN ORARIO -->
+            <form action="/timeremove" method='POST'>
+                <h2>RIMUOVI L'ORARIO DI UN FILM</h2>
+                <div class="form-row">
+                    <select class="custom-select time-select" name="timeremoved">
+                        {% if lista %}
+                            <option selected>Seleziona un film</option>
+                            {% for c in lista %}
+                                <option value="{{c['id']}}">{{c['title']}}</option>   
+                            {% endfor %}
+                        {% else %}
+                            <option selected>Non ci sono film</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <br> 
+                <div class="form-row">
+                    <!-- <label for="oldtime">VECCHIO ORARIO</label>
+                    <input type="time" name="oldtime" placeholder="Vecchio Orario" required > -->
+                    <label class="mr-4" for="removetime">ORARIO DA RIMUOVERE</label>
+                    <input class="mr-4" type="time" name="removetime" required >
+                    <label class="mr-4" for="removedate">NEL GIORNO</label>
+                    <input class="mr-4" type="date" name="removedate" required>
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </div>
+            </form>
+            
+            <hr>
+
+            <!-- SEZIONE PER LA MODIFICA DEI DATI DI UN FILM -->
+            <form action="/filmmodify" method='POST'>
+                <h2>MODIFICA I DATI DI UN FILM</h2>
+                <div class="form-row">
+                    <select class="custom-select" name="filmModified">
+                        {% if lista %}
+                            <option selected>Seleziona un film</option>
+                            {% for c in lista %}
+                                <option value="{{c['id']}}">{{c['title']}}</option>   
+                            {% endfor %}
+                        {% else %}
+                            <option selected>Non ci sono film</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <br>
+                <div class="container">
+                    <div class="row pippo">
+                        <div class="col text-right">
+                            <label for="modifytitle">TITOLO:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="modifytitle" placeholder="Nuovo Titolo" id="modifytitle" >
+                        </div>
+                    </div>
+                    <div class="row pippo">
+                        <div class="col text-right">
+                            <label for="modifyurl">URL IMMAGINE:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="modifyurl" placeholder="Nuovo URL" id="modifyurl" >
+                        </div>
+                    </div>
+                    <div class="row pippo">
+                        <div class="col text-right">
+                            <label for="modifydate">DATA PUBBLICAZIONE:</label>
+                        </div>
+                        <div class="col">    
+                            <input type="date" name="modifydate" placeholder="Nuova Data" id="modifydate" >
+                        </div>
+                    </div>
+                    <div class="row pippo">
+                        <div class="col text-right">
+                            <label for="modifycat">CATEGORIA:</label>
+                        </div>
+                        <div class="col">    
+                            <input type="text" name="modifycat" placeholder="Nuova Categoria" id="modifycat" >
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-around">
+                        <button class="btn btn-success" type="submit">Insert</button>
+                    </div> 
+                </div>
+            </form>
+
+            <hr>
+
+            <!-- Ripianificazione di un film -->
+            <form action="/replan" method="POST">
+                <h2>RIPIANIFICA UN FILM</h2>
+                <div class="d-flex flex-row pippo">
+                    <select name="replanFilm" class="custom-select">
+                        {% if notplanned %}
+                            <option selected>Seleziona un film</option>
+                            {% for f in notplanned %}
+                                <option value="{{f['id']}}">{{f['title']}}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option selected>Non ci sono film</option>
+                        {% endif %}
+                    </select>
+                    <button class="btn btn-success" type="submit">Replan</button>
+                </div>                 
+            </form>
+            
+            <hr>
+
+            <!-- Togliere un film dalla pianificazione (da controllare)-->   
+            <form action="/filmremove" method="POST">
+                <h2>TOGLI DALLA PIANIFICAZIONE UN FILM</h2>
+                <div class="d-flex flex-row pippo">
+                    <select class="custom-select" name="removeFilm">
+                        {% if lista %}
+                            <option selected>Seleziona un film</option>
+                            {% for c in lista %}
+                                <option value="{{c['id']}}">{{c['title']}}</option>   
+                            {% endfor %}
+                        {% else %}
+                            <option selected>Non ci sono film</option>
+                        {% endif %}
+                    </select>
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </div>                 
+            </form>  
+
+            <hr>             
+        {% endif %}
+        
+        <br>
+
+        <div class="ricerca">
+            <!-- Selezione di una data -->
+            <form action="/films" method="POST">
+                <div class="container">
+                    <div class="row pippo">
+                        <div class="col text-right">
+                            <label for="filmdate"><p>SELEZIONA UNA DATA:   </p></label>
+                        </div>
+                        <div class="col"> 
+                            <input type="date" min="{{today}}" name="filmdate" id="filmdate" value="{{date}}">
+                            <button class="btn btn-warning" type="submit">GO</button>
+                        </div>
+                    </div>
+
+                    <!-- Ricerca di una specifica categoria di film -->
+                    <div class="row pippo">
+                        <div class="col text-right">
+                            <label for="cat"><p>CERCA UNA CATEGORIA :   </p></label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="cat" placeholder="Category" id="filmcat" value="{{cat}}">
+                            <button class="btn btn-warning" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <br>
+
+
+        <!-- Sezione visualizzazione dei film -->
+        <ul>
+            {% if lista %}
+                {% for e in lista %}                    
+                    <form action="/hall" method="POST">
+                        <li>
+                            <hr>
+                            <div class="film">
+                                <img src="{{e['url']}}" style="width: 200px;" class="cover">
+                                <div class="descript d-inline-flex flex-column align-items-start ml-5">
+                                    <h3>{{e['title']}}</h3>
+                                    <h5>Data di uscita: {{e['year']}}</h5>
+                                    <h5>Categoria: {{e['cat']}}</h5>
+                                    <h5>Regista: {{e['director']}}</h5>
+                                    <h5>Durata: {{e['duration']}}</h5>
+                                    <div class="d-flex mt-4">
+                                        {% for o in e['orari'] %}                                
+                                            <button class="mr-3 btn btn-primary" type="submit" name="occupied" value="{{o['id_orario']}}">{{o['orario']}}</button>                                
+                                        {% endfor %}
+                                    </div>
+                                </div>  
+                            </div>
+                        </li>                        
+                    </form>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    <script src="{{ url_for('static', filename='timemodify.js')}}"></script>
+    <script src="{{ url_for('static', filename='timeinsert.js')}}"></script>
+{% endblock %}

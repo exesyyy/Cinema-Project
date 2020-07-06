@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Registration{% endblock %}
+
+{% block access %}  
+    <a class="nav-link" href="/login">ACCEDI</a>
+{% endblock %}
+
+{% block content %}
+    <div class="container posizione">
+        <form action='/success' method="POST">
+            <div class="row pippo">
+                <div class="col text-right">
+                    <label for="username">Nome:</label>
+                </div>
+                <div class="col">
+                    <input type="text" name="user_name" placeholder="Name" id="username" required>
+                </div>
+            </div>
+            <div class="row pippo">
+                <div class="col text-right">
+                    <label for="lastname">Cognome:</label>
+                </div>
+                <div class="col">
+                    <input type="text" name="user_lastname" placeholder="Surname" id="lastname" required>
+                </div>
+            </div>
+            <div class="row pippo">
+                <div class="col text-right">
+                    <label for="email">Email:</label>
+                </div>
+                <div class="col">    
+                    <input type="email" name="email" placeholder="Email" id="email" required>
+                </div>
+            </div>
+            <div class="row pippo">
+                <div class="col text-right">
+                    <label for="pass">Password:</label>
+                </div>
+                <div class="col"> 
+                    <input type="password" name="password" placeholder="Password" id="pass" minlength="6" required>
+                </div>
+            </div>
+            <div class="form-row justify-content-around">
+                <button class="btn btn-primary mt-2" type="submit">Registati</button>
+            </div>     
+        </form>
+    </div>
+{% endblock %}

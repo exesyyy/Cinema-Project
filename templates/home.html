@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+
+{% block access %}    
+    {% if user %}        
+        <a class="nav-link" href="/user">{{user}}</a>
+        <a class="nav-link" href="/logout">LOGOUT</a>
+    {% else %}
+        <a class="nav-link" href="/login">ACCEDI</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container posizione">
+        {% with messages = get_flashed_messages() %}
+        <!-- Se ci sono messaggi looppo per mostrarli tutti -->
+            {% if messages %}
+                {% for msg in messages %}
+                    <p>{{msg}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1 class="text-center">WELCOME TO THE CINEMA
+        {% if user %}
+            {{user}}!
+        {% endif %}
+        </h1>
+
+        <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/EJt09J6Hbus?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+        <video autoplay loop muted>
+            <source src="{{url_for('static', filename='trailervideo.mp4')}}" type="video/mp4">        
+        </video>
+        <!-- <div class ="banner">
+            <video autoplay muted loop>
+                <source src="/templates/PROGETTO/video/homevideo.mp4" type="video/mp4">
+                Change browser since it does not support mp4 videos.
+            </video>
+        </div> -->
+    </div>
+
+{% endblock %}

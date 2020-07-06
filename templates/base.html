@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <script src="{{ url_for('static', filename='jquery.js')}}"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="header fixed-top">
+            <nav class="nav">
+                <a class="nav-link" href="/home">HOME</a>
+                <a href="/films" class="nav-link">FILMS</a>
+                {% block access %}
+                
+                {% endblock %}                
+            </nav>                
+        </div>
+        {% block content%}
+        {% endblock %}
+        
+        <hr>
+        <footer>
+            Cinema: from unive import degree - project
+            <br>
+            Marco Serena 876597
+            <br>
+            Tommaso Golfetto 876451
+            <br>
+            Sq. Screenwriter 101, Hollywood
+            <br>
+            Tutte le immagini utilizzate sul sito sono ad uso esclusivo di divulgazione culturale ed è esclusa ogni finalità commerciale.
+            <br>
+            2020
+        </footer>
+    </body>
+    
+</html>

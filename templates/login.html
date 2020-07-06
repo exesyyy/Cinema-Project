@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Accedi{% endblock %}
+
+{% block access %}
+    <a class="nav-link" href="/login">
+        {% if user %}
+            {{user}}
+        {% else %}
+            ACCEDI
+        {% endif %}
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="container posizione">
+        {% with messages = get_flashed_messages() %}
+        <!-- Se ci sono messaggi looppo per mostrarli tutti -->
+            {% if messages %}
+                {% for msg in messages %}
+                    <p>{{msg}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form action="/login" method="POST">
+            <div class="container">
+                <div class="row pippo">
+                    <div class="col text-right">
+                        <label for="email">Email:</label>
+                    </div>
+                    <div class="col">
+                        <input type="email" name="email" placeholder="Email" id="email">
+                    </div>
+                </div>
+                <div class="row pippo">
+                    <div class="col text-right">
+                        <label for="pass">Password:</label>
+                    </div>
+                    <div class="col">    
+                        <input type="password" name="password" placeholder="Password" id="pass" minlength="6" required>
+                    </div>
+                </div>
+                <div class="form-row justify-content-around">
+                    <button class="btn btn-success mt-2" type="submit">Accedi</button>
+                </div>    
+            </div>
+        </form>
+        <br>
+        <div class="container text-center">
+            <p>Oppure</p>
+            <a href="/registration" id="reg"><button class="btn btn-primary">Registrati</button></a>
+            <!-- <a href="/registration" class="">Registrati</a> -->
+        </div>
+    </div>
+{% endblock %}

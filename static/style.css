@@ -1,0 +1,177 @@
+body{
+    background-color:black;
+}
+
+.pluto{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: #678595;
+    border: 1px solid black;
+}
+
+ul{
+    list-style: none;
+    color: white;
+}
+
+.film{
+    display: flex;
+    flex-flow: row;
+}
+
+.booked{
+    background-color: red;
+}
+
+.reserved{
+    background-color: green;
+}
+
+.cover{
+    width: 200px;
+    height: 300px;
+    border: solid 2px #0076a5;
+}
+
+.selected{
+    background-color: blue;
+}
+
+.nav-link{
+    font-family: Arial Black,Arial Bold,sans-serif; 
+    font-size: 18px;
+    line-height: 3.0;
+    letter-spacing: 2px;
+    color: white;
+}
+
+h1{
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif; 
+    font-size: 30px;
+    line-height: 3.0;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.banner{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+video{
+    position: center;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* border: solid 3px red; */
+}
+
+.form-row{
+    font-family: Arial Black,Arial Bold,sans-serif; 
+    font-size: 15px;
+    line-height: 3.0;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.pippo{
+    font-family: Arial Black,Arial Bold,sans-serif; 
+    font-size: 15px;
+    line-height: 3.0;
+    letter-spacing: 2px;
+    color: white;
+}
+
+p{
+    font-family: Arial Black,Arial Bold,sans-serif; 
+    font-size: 15px;
+    line-height: 3.0;
+    letter-spacing: 2px;
+    color: white;
+}
+
+a{
+    font-family: Arial Bold,sans-serif; 
+    font-size: 15px;
+    align-items: center;
+    line-height: 3.0;
+    letter-spacing: 4px;
+    color: white;
+}
+
+h3{
+    text-decoration: underline;
+}
+
+hr{
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+footer{
+    text-align: center;
+    color: white;
+}
+
+h2{
+    text-align: center;
+    color: #00b8ff;
+    vertical-align: middle;
+}
+
+.etichetta{
+    display: inline-block;
+    text-align: right;
+}
+
+.info{
+    display: inline-block;
+    text-align: left;
+}
+
+.line{
+    text-align: center;
+}
+
+#reg{
+    font-family: Arial Black,Arial Bold,sans-serif; 
+    font-size: 15px;
+    line-height: 3.0;
+    letter-spacing: 2px;
+    color: white;
+}
+
+#reg:hover{
+    color: white;
+    text-decoration: none;
+}
+
+.header{
+    background: #0076a5;
+}
+
+.posizione{
+    margin-top: 85px;
+}
+
+#chiudi:hover{
+    color: white;
+    text-decoration: none;
+}
+
+#deleteacc{
+    color: red;
+}
+
+#stats{
+    background-color:  #0076a5;
+    font-weight: 500;
+}

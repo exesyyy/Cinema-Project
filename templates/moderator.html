@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Area Riservata{% endblock %}
+
+{% block access %}      
+    {% if user %}
+        <a class="nav-link" href="/user">{{user}}</a>
+        <a class="nav-link" href="/logout">LOGOUT</a>
+    {% else %}
+        <a class="nav-link" href="/login">ACCEDI</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container posizione">
+        {% with messages = get_flashed_messages() %}
+        <!-- Se ci sono messaggi looppo per mostrarli tutti -->
+            {% if messages %}
+                {% for msg in messages %}
+                    <p>{{msg}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <!-- Conferire il ruolo ad un utente -->
+        <form action="/grantrole" method="POST">
+            <h2>CONFERISCI UN RUOLO</h2>
+            <div class="d-flex flex-row pippo">
+                <select name="grantRole" class="custom-select">
+                    {% if users %}
+                        <option selected>Seleziona un utente</option>
+                        {% for u in users %}
+                            <option value="{{u['id']}}">{{u['email']}}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option selected>Non ci sono utenti</option>
+                    {% endif %}
+                </select>
+                <select name="role">
+                    <option selected>Seleziona un ruolo</option>
+                    <option value="moderator">Moderatore</option>
+                    <option value="student">Studente</option>
+                </select>
+                <button class="btn btn-success" type="submit">Assegna</button>
+            </div>                 
+        </form>
+        <hr>
+        <form action="/revokerole" method="POST">
+            <h2>RIMUOVI UN RUOLO</h2>
+            <div class="d-flex flex-row pippo">
+                <select name="revokeRole" class="custom-select">
+                    {% if roles%}
+                        <option selected>Seleziona un utente</option>
+                        {% for u in roles %}
+                            <option value="{{u[0]}}">{{u[1]}} - {{u[2]}}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option selected>Non ci sono utenti</option>
+                    {% endif %}
+                </select>
+                <button class="btn btn-danger" type="submit">Rimuovi</button>
+            </div>                 
+        </form>
+        <hr>
+
+        <h2>STATISTICHE</h2>
+        {% if lista %}
+            <table class="table table-striped" id='stats'>
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">TITOLO</th>
+                        <th scope="col">VISUALIZZAZIONI</th>
+                        <th scope="col">INCASSO TOTALE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for l in lista %}
+                    <tr>
+                        <td>{{l['id']}}</td>
+                        <td>{{l['title']}}</td>
+                        <td>{{l['visual']}}</td>
+                        <td>{{l['price']}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        
+    </div>
+{% endblock %}
